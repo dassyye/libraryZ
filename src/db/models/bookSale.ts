@@ -19,6 +19,7 @@ BookSale.init({
       model: 'book',
       key: 'id'
     },
+    primaryKey: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE'
   },
@@ -29,6 +30,7 @@ BookSale.init({
       model: 'sale',
       key: 'id'
     },
+    primaryKey: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE'
   },

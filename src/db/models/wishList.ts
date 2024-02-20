@@ -18,6 +18,7 @@ WishList.init({
       model: 'book',
       key: 'id'
     },
+    primaryKey: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE'
   },
@@ -28,6 +29,7 @@ WishList.init({
       model: 'user',
       key: 'id'
     },
+    primaryKey: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE'
   }

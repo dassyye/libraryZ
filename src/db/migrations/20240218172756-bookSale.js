@@ -11,6 +11,7 @@ module.exports = {
           model: 'book',
           key: 'id'
         },
+        primaryKey: true,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
@@ -21,6 +22,7 @@ module.exports = {
           model: 'sale',
           key: 'id'
         },
+        primaryKey: true,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },

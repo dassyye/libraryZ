@@ -18,6 +18,7 @@ BookCategory.init({
       model: 'book',
       key: 'id'
     },
+    primaryKey: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE'
   },
@@ -28,6 +29,7 @@ BookCategory.init({
       model: 'category',
       key: 'id'
     },
+    primaryKey: true,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE'
   }
@@ -41,7 +43,7 @@ BookCategory.init({
 Book.belongsToMany(Category, { // belongsToMany =>> pertence a varios
   foreignKey: 'bookId',
   otherKey: 'categoryId',
-  as: 'categorys',
+  as: 'categories',
   through: BookCategory
 })
 

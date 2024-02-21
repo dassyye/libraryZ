@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 import BookService from '../services/book.service'
 
+import Category from '../db/models/category'
+
 class BookController {
   private service = new BookService()
 

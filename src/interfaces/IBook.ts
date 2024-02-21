@@ -4,5 +4,5 @@ export interface IBook {
   description: string
   price: number
   author: string
-  categories: number[]
+  categories?: string[]
 }

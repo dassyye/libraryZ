@@ -24,46 +24,49 @@ class BookService {
   async create(book: IBook) {
     const bookParse = bookBodySchema.safeParse(book)
 
-    if(!bookParse.success) {
-      return resp(400, { message: bookParse.error.message})
+    if(!bookParse.success) return resp(400, { message: bookParse.error.message})
+
+    let categories;
+
+    try {
+      const categorylist = await Promise.all(bookParse.data.categories.map((category) => {
+        return Category.findByPk(category)
+      }))
+
+      if(categorylist.some(id => id)) {
+        categories = categorylist
+      }
+    } catch(err) {
+      return resp(400, 'category not found')
     }
-
-    // verificar se a categoria existe!
-
-    const categories = await Promise.all(book.categories.map(async (id) => {
-      return await Category.findByPk(id) // find by primary key => pelo id da tabela
-    }))
-
-    // some= algum!!!, se algum...
-
-    if(categories.some(id => !id)) return resp(404, { message: 'Category not found!' })
 
     const createdBook = await this.model.create({
       id: randomUUID(),
-      ...bookParse.data
+      ...bookParse.data,
+      categories
     })
 
-    const bookCategory = bookParse.data.categories?.map(id => ({
+    const bookCategory = bookParse.data.categories.map(e => ({
       bookId: createdBook.id,
-      categoryId: id
+      categoryId: e
     }))
 
     await BookCategory.bulkCreate(bookCategory)
 
-    return resp(201, { message: createdBook })
+    return resp(201, createdBook)
   }
 
   async wishList(bookId: string, userId: string) {
     const findBook = await this.model.findByPk(bookId)
 
-    if(!findBook) {
-      return resp(404, 'Book not found!')
-    }
+    if(!findBook) return resp(404, 'Book not found!')
 
-    const book = await WishList.findOne({ where: {
-      bookId,
-      userId
-    }})
+    const book = await WishList.findOne({
+      where: {
+        bookId,
+        userId
+      }
+    })
 
     if(book) {
       await WishList.destroy({ where: {
